@@ -1,12 +1,29 @@
-import React, { useEffect, useState } from 'react';
-import { View, StatusBar } from 'react-native';
+// App.js
+
+import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { StatusBar } from 'react-native';
+
 import AuthForm from './F_components/AuthForm';
+import AboutScreen from './F_components/AboutScreen'; // import the new screen
 
-
+const Stack = createNativeStackNavigator();
 
 const App = () => {
-  
-  const [screen, setScreen] = useState('login');
+  return (
+    <NavigationContainer>
+      <StatusBar barStyle="dark-content" />
+      <Stack.Navigator initialRouteName="Auth">
+        <Stack.Screen name="Auth" component={AuthWrapper} options={{ title: 'Login / Signup' }} />
+        <Stack.Screen name="About" component={AboutScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+};
+
+const AuthWrapper = ({ navigation }) => {
+  const [screen, setScreen] = React.useState('login');
 
   const toggleScreen = () => {
     setScreen(screen === 'login' ? 'signup' : 'login');
@@ -14,11 +31,17 @@ const App = () => {
 
   const handleSubmit = (data) => {
     console.log('Form submitted:', data);
+    // You can navigate after successful login/signup like:
+    // navigation.navigate('About');
   };
+
   return (
-      <View style={{ flex: 1 }}>
-       <AuthForm type={screen} toggleScreen={toggleScreen} onSubmit={handleSubmit} />
-      </View>
+    <AuthForm
+      type={screen}
+      toggleScreen={toggleScreen}
+      onSubmit={handleSubmit}
+      goToAbout={() => navigation.navigate('About')} // Pass this down if needed
+    />
   );
 };
 
