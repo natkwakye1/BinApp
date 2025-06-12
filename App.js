@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { View, StatusBar } from 'react-native';
 import AuthForm from './F_components/AuthForm';
-
-
+import AboutScreen from './F_component/AboutScreen';
 
 const App = () => {
   
